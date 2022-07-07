@@ -48,6 +48,8 @@ git commit [-a] [<fileName>] -m"<对应commit的message信息>"
 
 直接查看与编辑配置文件：
 
+> 手动配置：`C:\Users\<电脑用户名>\.gitconfig`
+
 ```sh
 # 查看
 git config [--global] --list
@@ -80,6 +82,22 @@ git config --global core.editor "code --wait"
 
 # 2、还原vim为默认编辑器
 git config --global -unset core.editor
+```
+
+#### ③ main 分支配置
+
+&emsp;&emsp;自 2020 年 10 月 1 日开始，GitHub新建仓库的默认分支名由“master分支”改为了“main”。
+
+```sh
+# git init时的默认分支配置
+git config --global init.defaultBranch main
+```
+
+&emsp;&emsp;对创建但未`git push`的原master分支项目：
+
+```sh
+# 当前master分支改名为main
+git branch -M main
 ```
 
 ### 2、日志配置
