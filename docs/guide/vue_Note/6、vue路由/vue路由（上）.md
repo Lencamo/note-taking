@@ -1,10 +1,10 @@
-## 路由
+### 路由
 
 &emsp;&emsp;前面我们讲过使用 vue-cli 创建的项目本质上讲是一个 SPA（单页面）项目，而不同页面之间的切换，就需要通过 <span style="background-color: yellow;color:black">前端路由</span> 来实现。
 
 官方介绍：
 
-> [Vue Router](https://router.vuejs.org/zh/) 是 Vue.js 的官方路由。它与 Vue.js 核心深度集成，让用 Vue.js 构建单页应用变得轻而易举。
+> [Vue Router](https://v3.router.vuejs.org/zh/) 是 Vue.js 的官方路由。它与 Vue.js 核心深度集成，让用 Vue.js 构建单页应用变得轻而易举。
 
 &emsp;&emsp;通俗的理解就是：<span style="color: green;">Hash 地址</span>（锚链接）与<span style="color: green;">组件</span>之间的<span style="color: red;">对应关系</span>。
 

@@ -289,15 +289,7 @@ const router = new VueRouter({
 
 <img src="https://deer-sir.oss-cn-chengdu.aliyuncs.com/note-taking/20220608174713.png" width=676px />
 
-### 分类
-
-- 全局前置守卫
-- 全局解析守卫
-- 全局后置钩子
-- 路由独享守卫
-- 组件内的守卫
-
-&emsp;&emsp;每一次在路由中发生导航跳转时，都会触发<span style="color: red">全局前置守卫</span>，通过它可以对每一个路由进行访问权限的控制。
+&emsp;&emsp;每✨一次在<span style="background-color: yellow;color:black">路由中发生导航跳转时</span>，都会触发<span style="color: red">全局前置守卫</span>，通过它可以对每一个路由进行访问权限的控制。
 
 > 下面以全局前置守卫为例，进行初步学习。
 

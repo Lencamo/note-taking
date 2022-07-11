@@ -62,6 +62,10 @@ module.exports = {
             link: '/guide/computer_Basics/'
           },
           {
+            text: '数据可视化',
+            link: '/guide/data-visual_Note/'
+          },
+          {
             text: 'vue2.0笔记',
             link: '/guide/vue_Note/'
           },
@@ -98,14 +102,32 @@ module.exports = {
     sidebar: {
       '/guide/computer_Basics/': [
         {
-          title: '前端基础必备知识',
+          title: '基础必备',
           collapsable: false,
           children: [
             ['git命令.md', 'git命令'],
             ['Linux基础.md', 'Linux命令'],
-            ['正则表达式.md', '正则表达式'],
+            ['正则表达式.md', '正则表达式']
+          ]
+        },
+        {
+          title: 'CSS预处理器',
+          collapsable: false,
+          children: [
             ['Less语法.md', 'Less语法'],
             ['Sass语法.md', 'Sass语法']
+          ]
+        }
+      ],
+      '/guide/data-visual_Note/': [
+        {
+          title: '数据可视化',
+          collapsable: false,
+          children: [
+            ['ECharts入门（上）.md', 'ECharts入门（上）'],
+            ['ECharts入门（下）.md', 'ECharts入门（下）'],
+            ['ECharts高级（上）.md', 'ECharts高级（上）'],
+            ['ECharts高级（下）.md', 'ECharts高级（下）']
           ]
         }
       ],
@@ -212,17 +234,26 @@ module.exports = {
           ]
         },
         {
-          title: 'vue路由',
+          title: 'Vue Router插件',
           collapsable: false,
           children: [
             ['6、vue路由/vue路由（上）.md', 'vue路由（上）'],
-            ['6、vue路由/vue路由（下）.md', 'vue路由（下）']
+            ['6、vue路由/vue路由（下）.md', 'vue路由（下）'],
+            ['6、vue路由/vue路由进阶.md', 'vue路由进阶']
           ]
         },
         {
-          title: 'Vuex学习',
+          title: 'Vuex插件',
           collapsable: false,
-          children: [['7、Vuex学习/Vuex.md', 'vuex']]
+          children: [
+            ['7、Vuex学习/Vuex.md', 'vuex'],
+            ['7、Vuex学习/Vuex进阶.md', 'vuex进阶']
+          ]
+        },
+        {
+          title: 'Vue服务端渲染插件',
+          collapsable: false,
+          children: [['8、Vue服务端渲染/SSR.md', 'SSR']]
         }
       ],
       '/guide/node_Note/': [

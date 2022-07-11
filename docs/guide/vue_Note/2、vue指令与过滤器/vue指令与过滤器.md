@@ -8,6 +8,10 @@
 
 > vue 指令、vue 组件、路由、Vuex、vue 组件库等等
 
+API 文档：
+
+> 关于 vue 指令的更多信息可以查看 [API 文档](https://cn.vuejs.org/v2/api/)。
+
 ## 一、vue 特性
 
 <img src="https://deer-sir.oss-cn-chengdu.aliyuncs.com/note-taking/20220513233752.png" width=460px />
@@ -218,6 +222,25 @@
 </div>
 ```
 
+&emsp;&emsp;在<span style="background-color:yellow;color:black;"> 组件标签 </span>上绑定的所有事件（包括原始事件的名字 click、input 等等）都是自定义事件，都需要组件内的`$emit`来触发才行。
+
+- `.native`：监听组件根元素的原生事件 ✨
+
+应用场景：
+
+> 若组件内不支持某个原生事件名时（通过代码测试发现），<span style="color:green">.native 可以给组件内的根标签绑定该原生事件</span>。
+
+```html
+<div id="app">
+  <div class="box">
+    <Son @click.native="handlerFun" @mouseover="parentMoverFun"></Son>
+  </div>
+</div>
+
+<!-- 拓展：在element-ui中的<el-menu-item>组件🤔支持原生事件click -->
+<el-menu-item index="3" @click="logoutFn">退出</el-menu-item>
+```
+
 #### ③ 按键修饰符
 
 &emsp;&emsp;在监听键盘事件时，我们经常需要检查详细的按键。Vue 允许为 v-on 在监听键盘事件时添加按键修饰符。
@@ -391,7 +414,7 @@
 
 ### 6、双向绑定（表单）🚩
 
-&emsp;&emsp;在 vue 中你可以使用 ==v-model== 指令在表单 `<input>`、`<textarea>` 及 `<select>` 元素上创建双向数据绑定，用来辅助开发者在<span style="color: green;">不操作 DOM </span>的情况下，快速获取表单的数据。
+&emsp;&emsp;在 vue 中你可以使用 <span style="background-color:yellow;color:black;">v-model</span> 指令在表单 `<input>`、`<textarea>` 及 `<select>` 元素上创建双向数据绑定，用来辅助开发者在<span style="color: green;">不操作 DOM </span>的情况下，快速获取表单的数据。
 
 ```html
 <div id="app">

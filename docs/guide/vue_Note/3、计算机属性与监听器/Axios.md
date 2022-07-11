@@ -254,7 +254,71 @@ Vue.prototype.$http = axios
 </script>
 ```
 
-## 三、Axios 实例
+## 三、Axios 拦截器
+
+作用：
+
+- 在请求或响应被 then 或 catch 处理前拦截它们。
+
+图解：
+
+<img src="https://deer-sir.oss-cn-chengdu.aliyuncs.com/note-taking/20220710175238.png" width=442px /><br/>
+
+```js
+// 添加请求拦截器
+axios.interceptors.request.use(
+  function (config) {
+    // 在发送请求之前做些什么
+    ……
+    // 【config】🚩为axios配置对象（请求后台的参数都在这个对象上）
+    console.log(config)
+
+    return config
+  },
+  function (error) {
+    // 对请求错误做些什么
+    return Promise.reject(error)
+  }
+)
+
+// 添加响应拦截器
+axios.interceptors.response.use(
+  function (response) {
+    // 2xx 范围内的状态码都会触发该函数。
+    // 对响应数据做点什么
+    return response
+  },
+  function (error) {
+    // 超出 2xx 范围的状态码都会触发该函数。
+    // 对响应错误做点什么
+
+    // 打印错误🚩信息
+    console.dir(error)
+
+    return Promise.reject(error)
+  }
+)
+```
+
+- 移除拦截器
+
+```js
+const myInterceptor = axios.interceptors.request.use(function () {
+  /*...*/
+})
+axios.interceptors.request.eject(myInterceptor)
+```
+
+- 给自定义的 axios 实例添加拦截器
+
+```js
+const instance = axios.create()
+instance.interceptors.request.use(function () {
+  /*...*/
+})
+```
+
+## 四、Axios 实例
 
 &emsp;&emsp;在项目中，为了便于开发，往往我们使用是<span style="color:red">创建 axios 实例</span> 的方式，而不是使用上面的 <span style="color:green">axios 全局配置</span> 的方式。
 

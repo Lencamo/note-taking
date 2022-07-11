@@ -1,4 +1,4 @@
-## 数据共享
+### 数据共享
 
 &emsp;&emsp;我们在学习 vue 的时候，可以知道要想实现<span style="color: green;">数据间的数据共享</span>，常见的有下面的几种方式：
 
@@ -8,11 +8,50 @@
 
 &emsp;&emsp;但我们发现：当开发大型单页面应用时，我们需要大范围、频繁的使用数据共享，上述的方案显然就力不从心了。
 
-## 一、Vuex
+## 一、状态管理模式
 
-官方：
+### 1、单向数据流
 
-> Vuex 可以帮助我们<span style="color: red;">管理共享状态（数据）</span>，并附带了更多的概念和框架。
+```js
+new Vue({
+  // state
+  data() {
+    return {
+      count: 0
+    }
+  },
+  // view
+  template: `
+    <div>{{ count }}</div>
+  `,
+  // actions
+  methods: {
+    increment() {
+      this.count++
+    }
+  }
+})
+```
+
+图示：
+
+<img src="https://deer-sir.oss-cn-chengdu.aliyuncs.com/note-taking/20220709151119.png" width=340px />
+
+缺点：
+
+> 当我们的应用遇到多个组件共享状态时，单向数据流的简洁性很容易被破坏
+
+解决办法：
+
+### 2、全局单例模式管理
+
+<img src="https://deer-sir.oss-cn-chengdu.aliyuncs.com/note-taking/20220709151441.png" width=467px />
+
+## 二、Vuex
+
+官方介绍：
+
+> [Vuex](https://v3.vuex.vuejs.org/zh/) 可以帮助我们<span style="color: red;">管理共享状态（数据）</span>，并附带了更多的概念和框架。
 
 概念：
 
@@ -20,7 +59,7 @@
 
 &emsp;&emsp;简单的来说，就是 Vuex 是实现组件全局状态（数据）管理的一种机制，可以方便的实现组件之间数据的共享。
 
-实现原理：
+效果演示：
 
 <img src="https://deer-sir.oss-cn-chengdu.aliyuncs.com/note-taking/20220608204642.png" width=485px />
 
@@ -99,9 +138,14 @@ import store from '@/store'
 - Action
 - Getter
 
-&emsp;&emsp;下面学习 Vuex 核心概念时，有两种实现方式，个人更习惯于使用方法二。
+&emsp;&emsp;下面学习 Vuex 核心概念时，有两种实现方式。
 
-## 二、核心概念
+个人使用情况：
+
+- 若在组件中使用时推荐方法二
+- 若在其他地方使用推荐方式一
+
+## 三、核心概念
 
 ### 1、State
 
@@ -159,6 +203,8 @@ const vuex = new Vuex.Store({
 
 &emsp;&emsp;Mutation 用于<span style="color:red">变更</span>Store 中的数据。
 
+> 注意点：mutation 必须是同步函数
+
 配置
 
 - index.js
@@ -169,11 +215,18 @@ const vuex = new Vuex.Store({
     count: 0
   },
   mutations: {
+    // 1、不带参
     add(state) {
       state.count++
     },
-    addN(state, step) {
-      state.count += step
+
+    // 2、带参
+    // addN(state, step) {
+    //   state.count += step
+    // },
+    // 大多数情况下，载荷应该是一个✨对象
+    addN(state, payload) {
+      state.count += payload.step
     }
   }
 })
@@ -203,7 +256,8 @@ const vuex = new Vuex.Store({
 
       add_Handler2() {
         // 变更数据✨
-        this.$store.commit('addN', 3)
+        // this.$store.commit('addN', 3)
+        this.$store.commit('addN', { step: 3 })
       }
     }
   }
@@ -239,7 +293,8 @@ const vuex = new Vuex.Store({
         this.add()
       },
       add_Handler2() {
-        this.addN(3)
+        // this.addN(3)
+        this.addN({ step: 3 })
       }
     }
   }
@@ -248,7 +303,12 @@ const vuex = new Vuex.Store({
 
 ### 3、Action
 
-&emsp;&emsp;Action 用于处理<span style="color:red">异步任务</span>。但是通过 Action 变更数据时，还是要通过触发 Mutation 的方式间接变更数据。
+&emsp;&emsp;Action 类似于 Mutation
+
+不同的是：
+
+- Action 可以包含任意<span style="background-color:yellow;color:black">异步操作</span>。
+- 若使用 Action <span style="color:red">变更</span>数据，需要通过触发 Mutation 的方式间接变更数据。
 
 > 不建议在 mutation 函数中执行异步操作
 
@@ -295,9 +355,6 @@ const vuex = new Vuex.Store({
 <template>
   <p>当前最新的count值为：{{ $store.state.count }}</p>
 
-  <button @click="add_Handler1">+1</button>
-  <button @click="add_Handler2">+N</button>
-
   <button @click="add_Handler3">+1 Async</button>
   <button @click="add_Handler4">+N Async</button>
 </template>
@@ -305,15 +362,6 @@ const vuex = new Vuex.Store({
 <script>
   export default {
     methods: {
-      add_Handler1() {
-        // 变更数据✨
-        this.$store.commit('add')
-      },
-      add_Handler2() {
-        // 变更数据✨
-        this.$store.commit('addN', 3)
-      },
-
       add_Handler3() {
         // 变更数据✨
         this.$store.dispatch('addAsync')
@@ -335,16 +383,13 @@ const vuex = new Vuex.Store({
 <template>
   <p>当前最新的count值为：{{ count }}</p>
 
-  <button @click="add_Handler1">+1</button>
-  <button @click="add_Handler2">+N</button>
-
   <button @click="add_Handler3">+1 Async</button>
   <button @click="add_Handler4">+N Async</button>
 </template>
 
 <script>
   // 从vuex中按需导入🚩函数
-  import { mapState, mapMutations, mapActions } from "vuex";
+  import { mapState, mapActions } from "vuex";
 
   export default {
     // 1、使用✨数据时
@@ -353,15 +398,7 @@ const vuex = new Vuex.Store({
     },
     // 2、变更✨数据时
     methods: {
-      ...mapMutations(["add", "addN"]),
       ...mapActions(['addAsync','addNAsync'])
-
-      add_Handler1() {
-        this.add();
-      },
-      add_Handler2() {
-        this.addN(3);
-      },
 
       add_Handler3() {
         this.addAsync();
@@ -372,6 +409,33 @@ const vuex = new Vuex.Store({
     },
   };
 </script>
+```
+
+#### 应用场景：—— 数据请求
+
+```js
+import { getUserInfoAPI } from '@/api'
+
+export default new Vuex.Store({
+  state: {
+    userInfo: {} // 定义用户信息对象
+  },
+  mutations: {
+    // 更新用户的信息
+    updateUserInfo(state, info) {
+      state.userInfo = info
+    }
+  },
+  actions: {
+    // 定义初始化用户基本信息的 action 函数
+    async initUserInfo(store) {
+      const { data: res } = await getUserInfoAPI()
+      if (res.code === 0) {
+        store.commit('updateUserInfo', res.data)
+      }
+    }
+  }
+})
 ```
 
 ### 4、Getter
