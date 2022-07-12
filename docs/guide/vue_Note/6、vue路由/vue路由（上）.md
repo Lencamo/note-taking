@@ -361,7 +361,7 @@ const router = new VueRouter({
 })
 ```
 
-### 2、默认子路由
+### 3、默认子路由
 
 &emsp;&emsp;上面用重定向的方式设置二级路由 router-view 组件的默认显示页面，显然可能有点复杂。先对其升级如下：
 
