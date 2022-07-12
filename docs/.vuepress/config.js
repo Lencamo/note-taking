@@ -121,7 +121,7 @@ module.exports = {
       ],
       '/guide/data-visual_Note/': [
         {
-          title: '数据可视化',
+          title: 'ECharts学习',
           collapsable: false,
           children: [
             ['ECharts入门（上）.md', 'ECharts入门（上）'],
