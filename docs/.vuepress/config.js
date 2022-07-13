@@ -228,6 +228,7 @@ module.exports = {
           title: 'vue组件——高级',
           collapsable: false,
           children: [
+            ['5、vue组件 —— 高级/0.Prop和自定义事件.md', 'Prop和自定义事件'],
             ['5、vue组件 —— 高级/1.动态组件.md', '动态组件'],
             ['5、vue组件 —— 高级/2.插槽.md', '插槽'],
             ['5、vue组件 —— 高级/3.自定义指令.md', '自定义指令']
