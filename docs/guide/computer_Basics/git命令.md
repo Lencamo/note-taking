@@ -26,22 +26,26 @@ git status -s
 
 通过简写的形式查看文件状态，红色表示在文件在`workspace`工作区，绿色表示文件在`index`暂存区。字母`A`表示首次出现的文件，`M`表示 commit 过的文件，`D`表示已经执行删除操作的文件
 
+图示：
+
+<img src="https://deer-sir.oss-cn-chengdu.aliyuncs.com/note-taking/20220718170906.png" width=569px />
+
 ### 2、git 常用命令
 
 ```shell
 # 1、查看文件状态
 git status [-s]
-【注意：-s表示以简写的形式展示结果🚩】
+# 【注意：-s表示以简写的形式展示结果🚩】
 
 # 2、提交至index区
 git add [<fileName> | . | -u | -A]
-【注意： . 只对当前目录有效，但不包括D状态的文件。
-        -u 对整个git目录有效，但不包括??状态的文件。
-        -A 提交所有。】
+# 【注意： . 只对当前目录有效，但不包括D状态的文件。
+        # -u 对整个git目录有效，但不包括??状态的文件。
+        # -A 提交所有。】
 
 git commit [-a] [<fileName>] -m"<对应commit的message信息>"
-【注意：信息内容使用双引号。
-       -a表示执行commit的同时也执行了add操作】
+# 【注意：信息内容使用双引号。
+#        -a表示执行commit的同时也执行了add操作】
 ```
 
 ## 二、git 个人配置
@@ -86,14 +90,14 @@ git config --global -unset core.editor
 
 #### ③ main 分支配置
 
-&emsp;&emsp;自 2020 年 10 月 1 日开始，GitHub新建仓库的默认分支名由“master分支”改为了“main”。
+&emsp;&emsp;自 2020 年 10 月 1 日开始，GitHub 新建仓库的默认分支名由“master 分支”改为了“main”。
 
 ```sh
 # git init时的默认分支配置
 git config --global init.defaultBranch main
 ```
 
-&emsp;&emsp;对创建但未`git push`的原master分支项目：
+&emsp;&emsp;对创建但未`git push`的原 master 分支项目：
 
 ```sh
 # 当前master分支改名为main
@@ -104,7 +108,7 @@ git branch -M main
 
 ```sh
 # 查看commit信息
-git log
+git log [--oneline]
 # 查看分支结构
 git log --oneline --decorate --graph --all
 
@@ -288,9 +292,9 @@ git revert <commit版本>
 
 ```sh
 git stash [. | -u | -a]
-【注意： . 只对当前目录有效，但不包括D状态的文件。
-        -u 对整个git目录有效，但不包括??状态的文件。
-        -A 提交所有。】
+# 【注意： . 只对当前目录有效，但不包括D状态的文件。
+        # -u 对整个git目录有效，但不包括??状态的文件。
+        # -A 提交所有。】
 
 git stash list
 
@@ -422,8 +426,8 @@ git push origin --delete serverfix
 
 ```sh
 git cherry-pick [ -e | -n ] <commit版本>
-【注意：-e 表示会打开编辑器编辑合并的commit信息
-       -n 表示只是更新工作区、缓存区，不产生commit版本】
+# 【注意：-e 表示会打开编辑器编辑合并的commit信息
+#        -n 表示只是更新工作区、缓存区，不产生commit版本】
 ```
 
 若发生合并冲突：
@@ -449,10 +453,10 @@ git cherry-pick --quit
 ```sh
 # 1、拉取到工作区
 git pull [<远程仓库名> <远程分支名>:<本地分支名>]
-【示例: git pull origin master:master】
+# 【示例: git pull origin master:master】
 
 git clone <url>
-【克隆下来的远程仓库名默认为origin】
+# 【克隆下来的远程仓库名默认为origin】
 
 # 等效于：
 git fetch //先拉取到 本地远程👀仓库 储存
@@ -460,7 +464,7 @@ git merge //然后推送到工作区
 
 # 2、推送到远程仓库
 git push [-f] [-u <远程仓库名> <远程分支名>]
-【示例：-u origin master】
+# 【示例：-u origin master】
 ```
 
 ### 2、关联远程仓库

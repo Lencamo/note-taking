@@ -87,7 +87,108 @@ vue-cli-demo
 
 &emsp;&emsp;之前使用 webpack 时，开发环境中打包使用的是`dev脚本`而不是`serve脚本`
 
-### 4、运行流程✨
+<img src="https://deer-sir.oss-cn-chengdu.aliyuncs.com/note-taking/20220718152431.png" width=547px />
+
+① 打包升级 1 —— dist 文件项目预览：
+
+> 不使用 publicPath, 打包的项目必须保证 dist 的内容在服务器的根目录
+
+- vue.config.js
+
+```js
+module.exports = defineConfig({
+  publicPath: process.env.NODE_ENV === 'development' ? '/' : './'
+})
+```
+
+② 打包升级 2 —— CDN 减小包体积（dist 瘦身）
+
+> 更多的 vue-cli 配置可以参考：https://cli.vuejs.org/zh/config/
+
+&emsp;&emsp;推荐一个免费的 CDN 网站：https://unpkg.com/
+
+```sh
+unpkg.com/:package@:version/:file
+```
+
+配置：
+
+- vue.config.js
+
+```js
+// 一、不使用下载的第三方包（production环境下、external有值）
+let externals = {}
+
+// 二、使用CDN上的第三方包（production环境下、使用CDN地址）
+let CDN = { css: [], js: [] }
+
+// 生产环境判断
+if (process.env.NODE_ENV === 'production') {
+  externals = {
+    // 基本格式：
+    // '包名' : '在项目中引入的名字'
+    vue: 'Vue',
+    'vue-router': 'VueRouter',
+    vuex: 'Vuex',
+    axios: 'axios',
+    'element-ui': 'ELEMENT' // cdn里的源代码配置💖在ELEMENT这个变量
+    // （一定要去修改掉引入Element用的变量名, 这里要匹配ELEMENT去替换）
+    // ……
+  }
+  CDN = {
+    css: [
+      'https://unpkg.com/element-ui@2.15.8/lib/theme-chalk/index.css'
+      // ……
+    ],
+    js: [
+      // vue must at first!
+      'https://unpkg.com/vue@2.6.14/dist/vue.js',
+      'https://unpkg.com/vue-router@3.5.1/dist/vue-router.js',
+      'https://unpkg.com/vuex@3.6.2/dist/vuex.js',
+      'https://unpkg.com/axios@0.27.2/dist/axios.min.js',
+      'https://unpkg.com/element-ui@2.15.8/lib/index.js'
+      // ……
+    ]
+  }
+}
+
+module.exports = defineConfig({
+  // 需要排除的包对象
+  configureWebpack: {
+    externals: externals
+  },
+  // 需要配置的 CDN 链接
+  chainWebpack(config) {
+    // 注入cdn变量 (打包时会执行)
+    config.plugin('html').tap((args) => {
+      args[0].cdn = CDN // 配置 CDN 给插件
+      return args
+    }) // 省略其他...
+  }
+})
+```
+
+- public/index.html
+
+```html
+<head>
+  <!-- 1、引入CDN的css链接 -->
+  <% for(var css of htmlWebpackPlugin.options.cdn.css) { %>
+  <link rel="stylesheet" href="<%=css%>" />
+  <% } %>
+  <!-- …… -->
+</head>
+<body>
+  <!-- 2、引入CDN的js链接 -->
+  <!-- built files will be auto injected -->
+  <% for(var js of htmlWebpackPlugin.options.cdn.js) { %>
+  <script src="<%=js%>"></script>
+  <% } %>
+  <!-- …… -->
+</body>
+```
+
+### 4、运行流程 ✨
 
 &emsp;&emsp;通过入口文件 —— <span style="color: red;">main.js</span>把<span style="color: green;">App.vue</span>渲染到<span style="color: green;">index.html</span>的指定区域中。
 
