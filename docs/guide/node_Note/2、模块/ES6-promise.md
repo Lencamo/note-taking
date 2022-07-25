@@ -1,8 +1,31 @@
-## 回调地狱
+## ⅰ 回调函数
 
-概念：
+&emsp;&emsp;被作为实参传入另一函数，并在该外部函数内被调用，用以来完成某些任务的函数，称为回调函数。
 
-> 多层回调函数的相互嵌套
+- 同步回调
+
+```js
+function greeting(name) {
+  alert('Hello ' + name)
+}
+
+function processUserInput(callback) {
+  var name = prompt('Please enter your name.')
+  callback(name)
+}
+
+processUserInput(greeting)
+```
+
+- 异步回调
+
+&emsp;&emsp;回调函数经常被用于在一个异步操作完成后执行代码，它们被称为异步回调。
+
+&emsp;&emsp;一个常见的例子是在 promise 末尾添加的 .then 内执行回调函数（在 promise 被兑现或拒绝时执行）。这个结构常用于许多现代的 web API，例如 fetch()。
+
+## ⅱ 回调地狱
+
+> 多层 callback 回调函数的相互嵌套
 
 ```js
 setTimeout(() => {
@@ -26,6 +49,12 @@ setTimeout(() => {
 ## 一、ES6 的 Promise
 
 &emsp;&emsp;为了解决回调地狱问题，ES6（ECMAScript 2015）中新增了 Promise 的概念
+
+文档推荐：
+
+> [Promise](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+
+> [使用 Promise](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Using_promises)
 
 ### 1、Promise 基本认知
 
@@ -62,11 +91,19 @@ pm.then(
   (result) => {},
   (error) => {}
 )
+
+// 或者
+
+pm.then((result) => {}).catch((error) => {})
 ```
+
+<img src="https://deer-sir.oss-cn-chengdu.aliyuncs.com/note-taking/20220722195512.png" width=633.6px />
 
 ### 2、Promise 基本示例
 
 &emsp;&emsp;通过<span style="background-color:yellow;color:black">.then()方法的链式调用</span>，可以解决回调地狱问题。
+
+> Promise.prototype.then 和 Promise.prototype.catch 方法返回的是 promise，所以它们可以被链式调用
 
 ① 回调函数方式
 
@@ -148,6 +185,36 @@ Promise.race(promiseArr).then((result)=>{
 })
 ```
 
+### 4、基于 Promise 封装
+
+- 封装读取文件
+
+```js
+import fs from 'fs'
+
+function getFile(fpath) {
+  return new Promise(function (resolve, reject) {
+    fs.readFile(fpath, 'utf8', (err, dataStr) => {
+      if (err) return reject(err)
+      resolve(dataStr)
+    })
+  })
+}
+```
+
+- 使用
+
+```js
+getFile('./files/1.txt').then(
+  (r1) => {
+    console.log(r1)
+  },
+  (err) => {
+    console.log(err.message)
+  }
+)
+```
+
 ## 二、async/await
 
 &emsp;&emsp;async/await 是 ES8（ECMAScript 2017）中新引入的语法，用来简化 Promise 异步操作。
@@ -198,4 +265,45 @@ async function getAllFile() {
 }
 
 getAllFile()
+```
+
+## 三、事件循环（EventLoop）
+
+&emsp;&emsp;JavaScript 是一门<span style="color:red">单线程执行</span>的编程语言。也就是说，同一时间只能做一件事情。
+
+&emsp;&emsp;为了防止某个耗时任务导致程序假死的问题，JavaScript 包待执行任务分为：<span style="color:green">异步任务</span> 和 <span style="color:green">同步任务</span>。
+
+- 执行流程
+
+<img src="https://deer-sir.oss-cn-chengdu.aliyuncs.com/note-taking/20220722204811.png" width=689px />
+
+&emsp;&emsp;<span style="color:red">JavaScript 主线程从“任务队列”中读取异步任务的回调函数，放到执行栈中依次执行</span>。这种不断循环运行的机制又被称为 EventLoop（事件循环）
+
+① 关于异步任务
+
+- 异步任务分类
+
+<img src="https://deer-sir.oss-cn-chengdu.aliyuncs.com/note-taking/20220722205228.png" width=430.2px />
+
+- 异步任务 执行细则
+
+<img src="https://deer-sir.oss-cn-chengdu.aliyuncs.com/note-taking/20220722205449.png" width=523px />
+
+② 经典面试题
+
+```js
+setTimeout(function () {
+  console.log('1')
+})
+
+new Promise(function (resolve) {
+  console.log('2')
+  resolve()
+}).then(function () {
+  console.log('3')
+})
+
+console.log('4')
+
+// 执行结果为： 2431
 ```

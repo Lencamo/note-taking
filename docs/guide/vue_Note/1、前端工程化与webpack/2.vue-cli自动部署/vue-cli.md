@@ -50,24 +50,33 @@ npm run serve
 
 ### 2、结构
 
-```sh
-vue-cli-demo
-├─ .gitignore
-├─ node_modules
-├─ package-lock.json
-├─ package.json
+```Markdown
+vue-cli_project
 ├─ public
 │  ├─ favicon.ico
 │  └─ index.html🤔
-├─ README.md
 ├─ src
-│  ├─ App.vue🤔（根组件）
+│  ├─ api
 │  ├─ assets（项目的静态资源文件夹）
 │  │  └─ logo.png
 │  ├─ components（vue组件文件夹）
 │  │  └─ HelloWorld.vue
+│  ├─ router
+│  ├─ store
+│  ├─ utils
+│  ├─ views
+│  ├─ App.vue🤔（根组件）
 │  └─ main.js🚩（入口文件）
-└─ vue.config.js
+├─ .browserslistrc
+├─ .editorconfig
+├─ .eslintrc.js
+├─ babel.config.js
+├─ jsconfig.json
+├─ package-lock.json
+├─ package.json
+├─ README.md
+├─ vue.config.js
+└─ yarn.lock
 ```
 
 ### 3、打包发布
@@ -247,7 +256,7 @@ new Vue({
 </body>
 ```
 
-&emsp;&emsp;通过右键查看源码，可以发现页面自动注入了打包生成的 js 文件，类似于 webpack 中的 <span style="background-color: yellow">html-webpack-plugin</span> 辅助插件。
+&emsp;&emsp;通过右键查看源码，可以发现页面自动注入了打包生成的 js 文件，类似于 webpack 中的 <span style="background-color: yellow;color:black">html-webpack-plugin</span> 辅助插件。
 
 ```html
 <script defer src="/js/chunk-vendors.js"></script>
@@ -299,7 +308,68 @@ new Vue({
 <style scoped lang="less"></style>
 ```
 
-## 二、vue 的工程化开发
+## 二、vue-cli 版本问题
+
+&emsp;&emsp;Vue CLI >= 3 和旧版使用了相同的 vue 命令，所以 <span style="color:red">Vue CLI 2</span> (vue-cli) 被覆盖了。如果你仍然需要使用旧版本的 vue init 功能，你可以全局安装一个桥接工具：
+
+```sh
+npm install -g @vue/cli-init
+# `vue init` 的运行效果将会跟 `vue-cli@2.x` 相同
+vue init webpack my-project
+```
+
+### 1、项目结构对比
+
+- Vue CLI >= 3 项目结构
+
+```Markdown
+vue-cli_project
+├─ public ✔
+│  ├─ favicon.ico
+│  └─ index.html 👀
+├─ src
+│  ├─ assets文件夹
+│  ├─ components文件夹
+│  ├─ router
+│  ├─ store ✨
+│  ├─ views ✨
+│  ├─ App.vue
+│  └─ main.js
+├─ package-lock.json
+├─ package.json
+├─ vue.config.js ✔
+└─ README.md
+```
+
+- Vue CLI <= 2 项目结构
+
+```Markdown
+vue-cli_project
+├─ build文件夹 ✔
+├─ config文件夹 ✔
+├─ static ✔
+│  └─ .gitkeep
+├─ src
+│  ├─ assets文件夹
+│  ├─ components文件夹
+│  ├─ router
+│  ├─ App.vue
+│  └─ main.js
+├─ package-lock.json
+├─ package.json
+├─ index.html 👀
+└─ README.md
+```
+
+### 2、总结：
+
+&emsp;&emsp;通过构建项目的结构，我们可以发现它们之间的不同：
+
+- build、config 文件夹 ——> vue.config.js
+- static 文件夹 ——> public 文件夹
+- vue-cli 新版本在构建项目时，新增了<span style="color:green">TypeScript</span>、<span style="color:green">Vuex</span>、<span style="color:green">CSS Pre-processors</span>选项
+
+## 三、vue 的工程化开发
 
 ### 1、工程化
 

@@ -2,7 +2,7 @@
 
 官方简介：
 
-> [webpack](https://www.webpackjs.com/) 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。
+> [webpack](https://webpack.docschina.org/) 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。
 
 安装：
 

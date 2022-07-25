@@ -183,14 +183,14 @@ doc/**/*.pdf
 ```sh
 # ① 工作区提交到暂存区
 git add [<fileName> | . | -u | -A]
-【注意： . 只对当前目录有效，但不包括D状态的文件。
-        -u 对整个git目录有效，但不包括??状态的文件。
-        -A 提交所有。】
+# 【注意： . 只对当前目录有效，但不包括D状态的文件。
+        # -u 对整个git目录有效，但不包括??状态的文件。
+        # -A 提交所有。】
 
 # ② 暂存区提交到本地仓库
 git commit [-a] [<fileName>] -m"<对应commit的message信息>"
-【注意：信息内容使用双引号。
-       -a表示执行commit的同时也执行了add操作】
+# 【注意：信息内容使用双引号。
+#        -a表示执行commit的同时也执行了add操作】
 ```
 
 ### 2、撤销
@@ -314,7 +314,7 @@ git stash clear
 ```sh
 # 1、选择操作的commit版本的编辑区间
 git rebase -i [startpoint]  [endpoint]
-【默认endpoint为`HEAD`，startpoint可以表示为`HEAD~n`，并且区间为前开后闭】
+# 【默认endpoint为`HEAD`，startpoint可以表示为`HEAD~n`，并且区间为前开后闭】
 
 # 2、选择操作类型
 ……[reword | squash | drop ——> 修改 | 合并 | 删除]
@@ -327,7 +327,7 @@ git rebase -i [startpoint]  [endpoint]
 ```sh
 # 1、选择操作的commit版本的编辑区间
 git rebase -i [startpoint]  [endpoint]
-【默认endpoint为`HEAD`，startpoint可以表示为`HEAD~n`，并且区间为前开后闭】
+# 【默认endpoint为`HEAD`，startpoint可以表示为`HEAD~n`，并且区间为前开后闭】
 
 # 2、选择操作类型
 ……[ edit ——> 修改]
@@ -367,11 +367,11 @@ git commit --amend [-m"<新的message信息>"]
 # 1、创建
 git tag <tagName>
 git tag -a <tagName> [commit版本] [-m"<对应标签的message信息>"]
-【tagName示例：X.XX.XX.[<修饰词>]】
+# 【tagName示例：X.XX.XX.[<修饰词>]】
 
 # 2、查看
 git tag [-l "v3.3.*"]
-【-l表示要过滤的版本】
+# 【-l表示要过滤的版本】
 git show <版本号>
 
 # 3、删除
@@ -397,7 +397,7 @@ git branch [-a] [-v]
 
 # 3、删除
 git branch <-d | -D > <分支名>
-【-d 和 -D的区别为：-D不用检查merge状态】
+# 【-d 和 -D的区别为：-D不用检查merge状态】
 
 # 4、合并
 git merge <分支名>

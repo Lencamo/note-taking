@@ -70,7 +70,7 @@ new Vue({
 ### 1、安装
 
 ```sh
-npm i vuex -S
+npm install vuex@next --save
 ```
 
 ### 2、配置
@@ -130,6 +130,8 @@ import store from '@/store'
 ### 3、使用
 
 &emsp;&emsp;同创建 vue-router 路由一样，使用 vue-cli 创建 SPA 项目以后，会自动生成相关文件 😂，不用自己手动编写。
+
+> 注意的是：在 vue-cli <= 2.x 的旧版本模板时，是没法一键配置 Vuex 的。
 
 &emsp;&emsp;Vuex 中的主要核心概念如下：
 

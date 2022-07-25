@@ -268,11 +268,14 @@ const router = new VueRouter({
 </script>
 ```
 
-### 4、拓展：
+### 4、拓展
 
-> 在实际开发中，一般只会前进和后退一步。因此可以简写为：
-> ① `$router.back()`
-> ② `$router.forward()`
+① 前进、后退
+
+&emsp;&emsp;在实际开发中，一般只会前进和后退一步。因此可以简写为：
+
+- `$router.back()`
+- `$router.forward()`
 
 ```html
 <template>
@@ -283,13 +286,49 @@ const router = new VueRouter({
 </template>
 ```
 
+② 参数使用
+
+- /users/eduardo
+
+```js
+// 字符串路径
+router.push('/users/eduardo')
+
+// 带有路径的对象
+router.push({ path: '/users/eduardo' })
+
+// 命名的路由，并加上参数，让路由建立 url
+router.push({ name: 'user', params: { username: 'eduardo' } })
+```
+
+- 其他
+
+```js
+// 带查询参数，结果是 /register?plan=private
+router.push({ path: '/register', query: { plan: 'private' } })
+
+// 带 hash，结果是 /about#team
+router.push({ path: '/about', hash: '#team' })
+```
+
+③ 注意事项：
+
+> 如果提供了 path，params 会被忽略
+
+```js
+// `params` 不能与 `path` 一起使用
+router.push({ path: '/user', params: { username } }) // -> /user
+```
+
+&emsp;&emsp;你可能已经注意到，`router.push`、`router.replace` 和 `router.go` 是 `window.history.pushState`、`window.history.replaceState`` 和 `window.history.go`` 的翻版，它们确实模仿了 window.history 的 API。
+
 ## 六、导航守卫
 
 &emsp;&emsp;导航守卫可以控制路由的访问权限。示意图如下：
 
 <img src="https://deer-sir.oss-cn-chengdu.aliyuncs.com/note-taking/20220608174713.png" width=676px />
 
-&emsp;&emsp;每✨一次在<span style="background-color: yellow;color:black">路由中发生导航跳转时</span>，都会触发<span style="color: red">全局前置守卫</span>，通过它可以对每一个路由进行访问权限的控制。
+&emsp;&emsp;每 ✨ 一次在<span style="background-color: yellow;color:black">路由中发生导航跳转时</span>，都会触发<span style="color: red">全局前置守卫</span>，通过它可以对每一个路由进行访问权限的控制。
 
 > 下面以全局前置守卫为例，进行初步学习。
 

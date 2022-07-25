@@ -87,7 +87,7 @@ module.exports = {
       },
       {
         text: 'GitHub',
-        link: 'https://github.com/Lencamo',
+        link: 'https://github.com/Lencamo/note-taking',
         icon: 'reco-github'
       },
       {
@@ -274,7 +274,7 @@ module.exports = {
           children: [
             ['2、模块/1.内置API模块（上）.md', '内置模块（上）'],
             ['2、模块/2.内置API模块（下）.md', '内置模块（下）'],
-            ['2、模块/3.第三方模块（包）.md', '包'],
+            ['2、模块/3.第三方模块（包）.md', '包应用'],
             ['2、模块/REVIEW.md', '回顾'],
             ['2、模块/ES6-promise.md', '【ES6-promise】'],
             ['2、模块/数据请求.md', '【数据请求】'],

@@ -100,3 +100,91 @@ const router = createRouter({
   routes: [{ path: '/login', component: () => import('./views/Login') }]
 })
 ```
+
+## 三、路由元信息
+
+&emsp;&emsp;在定义路由的时候，我们可以配置一个 <span style="background-color:yellow;color:black">meta 字段</span>。简单的说就是根据自身需求让路由身上携带的一些信息。
+
+```js
+const router = new VueRouter({
+  routes: [
+    {
+      path: '/foo',
+      component: Foo,
+      children: [
+        {
+          path: 'bar1',
+          component: Bar1,
+          // a meta field
+          meta: {
+            requiresAuth: true, //1、用于权限登录，类似于前面的白名单✨页面放行
+            title: '首页' //2、用于路由跳转配套数据
+          }
+        },
+        {
+          path: 'bar2',
+          component: Bar2,
+          // a meta field
+          meta: {
+            requiresAuth: true,
+            title: '搜索'
+            list: ['foo','bar2'] // 面包屑效果
+          }
+        }
+      ]
+    }
+  ]
+})
+```
+
+- 应用 1 —— 页面跳转权限判断
+
+> 说明：routes 配置中的每个路由对象为 <span style="color: green">路由记录</span>(record)
+
+```js
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (!auth.loggedIn()) {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next() // 确保一定要调用 next()
+  }
+})
+```
+
+- 应用 2：用于路由跳转配套数据 🍗
+
+> $route 也是一个对象，可以使用 watch 监听器进行监听
+
+> 并且一般在路由中设置的属性值是不会随意发生变化的，因此不用加上：`deep: true`
+
+```html
+<template>
+  <div class="layout-container">
+    <van-nav-bar :title="activeTitle" />
+  </div>
+</template>
+<script>
+  export default {
+    name: 'comLayout',
+    data() {
+      return {
+        activeTitle: this.$route.meta.title // 使用动态的title值
+      }
+    },
+    watch: {
+      $route: function () {
+        this.activeTitle = this.$route.meta.title
+      }
+    }
+  }
+</script>
+```

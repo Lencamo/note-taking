@@ -159,13 +159,7 @@ Swagger 常用注解
 
 > http://localhost:8080/swagger-ui.html
 
-## 二、ShowDoc + RunApi 方式
-
-&emsp;&emsp;首先要注册一个 ShowDoc 账号。使用较为简单，不做介绍。然后下载 RunApi，并登陆 ShowDoc 账号。
-
-&emsp;&emsp;这样自己在 RunApi 中发起的一些请求，就会自动编写为 API 文档并同步到 ShowDoc 中。
-
-## 三、ApiDoc 方式
+## 二、ApiDoc 方式
 
 &emsp;&emsp;ApiDoc 是一个和 swagger 类似的 Api 文档生成工具。
 
@@ -238,3 +232,13 @@ vscode 插件
 ```sh
 apidoc -i .\routers\ -o .\doc
 ```
+
+## 三、ShowDoc + RunApi 方式
+
+&emsp;&emsp;首先要注册一个 ShowDoc 账号。使用较为简单，不做介绍。然后下载 RunApi，并登陆 ShowDoc 账号。
+
+&emsp;&emsp;这样自己在 RunApi 中发起的一些请求，就会自动编写为 API 文档并同步到 ShowDoc 中。
+
+## 四、ApiFox 方式
+
+&emsp;&emsp;谁用过谁知道，是真的香。
