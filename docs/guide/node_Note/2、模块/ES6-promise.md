@@ -65,11 +65,11 @@ console.dir(Promise)
 结果：
 
 ```sh
-构造函数
+# 构造函数
 ƒ Promise()
 - prototype: Promise
 
-原型链
+# 原型链
 prototype: Promise
 - catch: ƒ catch()
 - constructor: ƒ Promise()

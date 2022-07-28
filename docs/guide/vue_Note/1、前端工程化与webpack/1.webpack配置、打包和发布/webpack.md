@@ -104,9 +104,9 @@ npm i webpack-dev-server@3.11.2 -D
 
 ```html
 <!-- 步骤3  -->
-原来：
+<!-- 原来： -->
 <script src="../dist/main.js"></script>
-现在：
+<!-- 现在： -->
 <script src="/main.js"></script>
 ```
 
@@ -129,14 +129,14 @@ module.exports = {
 &emsp;&emsp;上面的方法任然未能解决通过 http://localhost:8080 直接实时预览项目效果的要求。
 
 ```sh
-1、步骤1
+# 1、步骤1
 npm i html-webpack-plugin@5.3.2 -D
 ```
 
 &emsp;&emsp;然后配置 webpack.config.js：
 
 ```js
-2、步骤2
+// 2、步骤2
 const HtmlPlugin = require('html-webpack-plugin')
 
 const htmlPlugin = new HtmlPlugin( {

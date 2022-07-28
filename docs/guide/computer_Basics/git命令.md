@@ -2,7 +2,7 @@
 
 &emsp;&emsp;官方描述：
 
-> Git 是一个免费和开源的 <span style="background-color:yellow">分布式版本控制系统</span>，旨在以速度和效率处理从小型到大型项目的所有内容。
+> Git 是一个免费和开源的 <span style="background-color:yellow;color:black">分布式版本控制系统</span>，旨在以速度和效率处理从小型到大型项目的所有内容。
 
 > Git 易于学习， 占用空间小，性能快如闪电。具有廉价的本地分支、方便的暂存区域和 多个工作流等功能。
 
@@ -130,6 +130,8 @@ git config --global alias.plog "log --pretty=format:'%C(yellow)[%h] %C(magenta)%
 
 > [官方文档](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%AE%B0%E5%BD%95%E6%AF%8F%E6%AC%A1%E6%9B%B4%E6%96%B0%E5%88%B0%E4%BB%93%E5%BA%93)
 
+> [忽略文件查询](https://github.com/github/gitignore)
+
 文件 .gitignore 的格式规范如下：
 
 - 以 <span style="color:red"># 开头</span>的是注释
@@ -180,6 +182,8 @@ doc/**/*.pdf
 
 ### 1、提交
 
+<img src="https://deer-sir.oss-cn-chengdu.aliyuncs.com/note-taking/图2.png" width=759px />
+
 ```sh
 # ① 工作区提交到暂存区
 git add [<fileName> | . | -u | -A]
@@ -194,6 +198,8 @@ git commit [-a] [<fileName>] -m"<对应commit的message信息>"
 ```
 
 ### 2、撤销
+
+<img src="https://deer-sir.oss-cn-chengdu.aliyuncs.com/note-taking/图1.png" width=760.5px />
 
 ```sh
 # ① 已暂存 撤销到 已修改
@@ -253,7 +259,7 @@ commit 版本的几种状态（`<commit版本>`）：
 
 &emsp;&emsp;revert<span style="color:green">相当于复制了一份指定的 commit 版本</span>，并进行了提交。
 
-①reset 命令：
+①reset 命令 🚩：
 
 ```sh
 # 1、保留 workspace工作区和index缓存区的文件
@@ -292,9 +298,9 @@ git revert <commit版本>
 
 ```sh
 git stash [. | -u | -a]
-# 【注意： . 只对当前目录有效，但不包括D状态的文件。
-        # -u 对整个git目录有效，但不包括??状态的文件。
-        # -A 提交所有。】
+# 【注意： . 只对当前目录有效，但不包括D状态的文件
+        # -u 对整个git目录有效，但不包括??状态的文件
+        # -a 暂存所有 】
 
 git stash list
 
@@ -452,19 +458,25 @@ git cherry-pick --quit
 
 ```sh
 # 1、拉取到工作区
+# 方式1
 git pull [<远程仓库名> <远程分支名>:<本地分支名>]
 # 【示例: git pull origin master:master】
+# 强制拉取
+git fetch --all && git reset --hard origin/master && git pull
+# 【说明：先获取远程更新的数据 和 回退工作区/暂存区/版本库，最后再pull】
 
+# 方式2
 git clone <url>
 # 【克隆下来的远程仓库名默认为origin】
-
 # 等效于：
-git fetch //先拉取到 本地远程👀仓库 储存
-git merge //然后推送到工作区
+git fetch # 先拉取远程仓库中新的commit（得到🚩远程仓库中所有分支的引用：参考.git/FETCH_HEAD文件）
+git merge # 再合并远程仓库中所有分支的引用
 
 # 2、推送到远程仓库
-git push [-f] [-u <远程仓库名> <远程分支名>]
+git push [-u <远程仓库名> <远程分支名>]
 # 【示例：-u origin master】
+# 强制推送
+git push -f
 ```
 
 ### 2、关联远程仓库
@@ -499,6 +511,47 @@ git push -u origin master
 git clone <url>
 git remote add origin <url>
 git push -u origin master
+```
+
+### 3、解决冲突
+
+&emsp;&emsp;防止发生冲突的关键是：潜意识里要提高远程仓库的地位（即开发时，先 pull）。
+
+> 注意：若直接手动解决冲突文件，默认采取的是 merge 操作，并且会产生一次 commit
+
+> 冲突产生原因：有人已经 push 的文件和你的文件发生冲突
+
+① pull 冲突
+
+- 未 commit 过，pull 时发生冲突
+  （可以先 ✨stash 工作区内容，然后 pull）
+
+```sh
+git reset --soft HEAD
+git stash .
+git pull
+git apply [HEAD@{n} | n]
+# 【此时就可以在工作区进行版本比较了】
+```
+
+- 已 commit 未 push，pull 时发生冲突
+  （先 push，下次需要的时候再 pull）
+
+```sh
+git push
+```
+
+- 过 commit 过，
+  （可以先 reset 到上一个版本，然后 stash 工作区内容，再 pull）
+
+② push 冲突
+
+```sh
+git pull
+# ……然后直接修改冲突内容
+git add.
+git commit -m"<对应commit的message信息>"
+git push
 ```
 
 ## 七、SSH 免密 与 多账号管理
@@ -540,7 +593,9 @@ ssh -T git@github.com
 
 &emsp;&emsp;有时候，尽管我们只有一台电脑，但可能你会同时使用多个远程仓库账号：GitHub 账号、gitee 账号（同时你还可能有不止一个 GitHub 账号）
 
-#### ① GitHub
+#### ① 生成 SSH 密码
+
+- GitHub
 
 ```sh
 ssh-keygen -t rsa -C "GitHub邮箱"
@@ -549,7 +604,7 @@ ssh-keygen -t rsa -C "GitHub邮箱"
 # [设置本地pull密码]
 ```
 
-#### ② gitee
+- Gitee
 
 ```sh
 ssh-keygen -t rsa -C "gitee邮箱"
@@ -558,7 +613,18 @@ ssh-keygen -t rsa -C "gitee邮箱"
 # [设置本地pull密码]
 ```
 
-#### ③ 配置文件 config
+- Codeup
+
+```sh
+ssh-keygen -t ed25519 -C "codeup邮箱"
+# 然后依次输入🚩
+/c/Users/<电脑用户名>/.ssh/id_ed25519_codeup.pub
+# [设置本地pull密码]
+```
+
+#### ② 多账号配置
+
+- 配置文件 config
 
 ```sh
 cd ~/.ssh && touch config
@@ -569,8 +635,6 @@ vim config
 ```
 
 Host 后的内容为：<span style="background-color:yellow;color:black">HostName 别名</span>
-
-IdentityFile 后的内容为：id_rsa_github/id_rsa_gitee 文件的地址
 
 ```java
 # 配置github.com
@@ -586,7 +650,24 @@ Host gitee.com
     IdentityFile ~/.ssh/id_rsa_gitee
     PreferredAuthentications publickey
     User <使用git时个人配置的user.name>
+
+# 配置codeup.aliyun.com
+Host codeup.aliyun.com
+    HostName codeup.aliyun.com
+    IdentityFile ~/.ssh/id_ed25519_codeup
+    PreferredAuthentications publickey
+    User <使用git时个人配置的user.name>
 ```
+
+#### ③ GitHub 关联 key
+
+- key 的目录
+
+```sh
+cd ~/.ssh
+```
+
+&emsp;&emsp;将本地生成 SSH Key（即：`id_rsa_github.pub`/`id_rsa_gitee.pub`/`id_ed25519_codeup.pub` 文件）中的内容，拷贝到相应的代码托管平台的 SSH 公钥处。
 
 #### ④ 连接测试
 
@@ -598,11 +679,14 @@ ssh -T git@github.com
 
 # gitee账号
 ssh -T git@gitee.com
+
+# codeup账号
+ssh -T git@codeup.aliyun.com
 ```
 
 ## 八、vscode 开发与 git 使用
 
-虽然使用 Git Bash 命令有诸多好处，但也有一定的缺点：
+虽然直接在 Git Bash 中使用 git 命令有诸多好处，但也有一定的缺点：
 
 - 当 commit 版本、分支较多时，不便于观察
 - 实际开发中 commit 版本、文件间的`diff`差异比较在 Git Bash 中也不便于观察
