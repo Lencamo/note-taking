@@ -10,9 +10,43 @@ module.exports = {
         updatePopup: true
       }
     ],
+    // [
+    // 辅助导航栏的自动识别显示侧边栏文档 —— （以链接的形式）
+    // ('vuepress-plugin-auto-sidebar', {})
+    // ]
+    // 公告栏弹窗
     [
-      // 辅助导航栏的自动识别显示侧边栏文档 —— （以链接的形式）
-      // ('vuepress-plugin-auto-sidebar', {})
+      '@vuepress-reco/vuepress-plugin-bulletin-popover',
+      {
+        width: '255px', // 默认 260px
+        title: '消息提示',
+        body: [
+          {
+            type: 'title',
+            content: '今天天气不错，欢迎你的来到',
+            style: 'text-aligin: center;'
+          },
+          {
+            type: 'text',
+            content:
+              '🎉🎉本网站为个人的前端笔记网站。内容会随着自己的复习、学习脚步逐步完善，更多内容敬请期待！！😂'
+          },
+          {
+            type: 'text',
+            content: '🎉🎉本网站项目已经开源，欢迎大家积极提出issues！'
+          },
+          {
+            type: 'text',
+            content:
+              '<li><a href="https://github.com/Lencamo/note-taking/issues" target="_blank">Issues</a></li>'
+          },
+          {
+            type: 'text',
+            content:
+              '<li><a href="https://github.com/Lencamo/note-taking" target="_blank">Star</a></li>'
+          }
+        ]
+      }
     ]
   ],
   head: [
