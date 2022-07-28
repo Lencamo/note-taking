@@ -297,17 +297,14 @@ git revert <commit版本>
 > 修复紧急 bug/需求时，但又不想 commit 当前工作区正在编写的文件，可以先`stash`存储未提交的文件。然后 git pull 先处理的紧急 bug/需求，解决完需求后再`apply`恢复即可。
 
 ```sh
-git stash [. | -u | -a]
-# 【注意： . 只对当前目录有效，但不包括D状态的文件
-        # -u 对整个git目录有效，但不包括??状态的文件
-        # -a 暂存所有 】
+git stash
 
 git stash list
 
-git stash apply [HEAD@{n} | n]
-git stash pop [HEAD@{n} | n]
+git stash apply stash@{n}
+git stash pop stash@{n}
 
-git stash drop [HEAD@{n} | n]
+git stash drop stash@{n}
 git stash clear
 ```
 
@@ -353,6 +350,11 @@ git rebase --continue
 # 当前add的文件 与 已经commit版本的文件内容结合
 git reset --soft <commit版本>  # 可使用结合使用
 git commit --amend [-m"<新的message信息>"]
+```
+
+```sh
+# 修改第一次提交的commit信息
+git rebase -i --root
 ```
 
 【注意：
